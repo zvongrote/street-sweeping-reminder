@@ -1,0 +1,19 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:id="@+id/alarm_timeout"
+        app:defaultValue="5"
+        app:entries="@array/alarm_timeout_entries"
+        app:entryValues="@array/alarm_timeout_values"
+        app:key="@string/alarm_timeout_key"
+        app:title="@string/silence_alarm"
+        app:useSimpleSummaryProvider="true" />
+
+    <SwitchPreferenceCompat
+        android:id="@+id/enable_ads"
+        app:defaultValue="true"
+        app:key="@string/settings_ads_key"
+        app:title="@string/enable_ads" />
+
+</PreferenceScreen>

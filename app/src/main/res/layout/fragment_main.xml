@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.zachvg.streetsweepingreminder.summary.SummaryViewModel" />
+    </data>
+
+    <!-- If the root layout is changed, make sure to move the animateLayoutChanges attribute to the new root. -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:animateLayoutChanges="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                tools:context=".summary.SummaryFragment">
+
+                <TextView
+                    android:id="@+id/alarm_when_label"
+                    style="@style/alarm_notification_when_label"
+                    android:layout_marginStart="32dp"
+                    android:text="@string/when_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/alarm_label" />
+
+                <View
+                    android:id="@+id/alarm_day_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="@+id/radioGroup_alarm_day"
+                    app:layout_constraintStart_toStartOf="@+id/alarm_when_label"
+                    app:layout_constraintTop_toBottomOf="@+id/alarm_when_label" />
+
+                <TextView
+                    android:id="@+id/alarm_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/alarm_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup_notification_day" />
+
+                <TextView
+                    android:id="@+id/next_sweeping_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/next_sweeping_label"
+                    android:textAlignment="textStart"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/next_sweeping_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{viewModel.nextSweepingDateString}"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/next_sweeping_label"
+                    tools:text="Month Day (69 days)" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/schedules_recyclerview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="true"
+                    android:paddingBottom="100dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/schedules_label"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/schedule_list_item" />
+
+                <TextView
+                    android:id="@+id/schedules_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/schedules_label"
+                    android:textAlignment="textStart"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup_alarm_day" />
+
+                <TextView
+                    android:id="@+id/notification_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/notification_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/next_sweeping_date_text_view" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/notification_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:enabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/next_sweeping_date_text_view" />
+
+                <TextView
+                    android:id="@+id/notification_when_label"
+                    style="@style/alarm_notification_when_label"
+                    android:layout_marginStart="32dp"
+                    android:text="@string/when_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_label" />
+
+                <View
+                    android:id="@+id/notification_day_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="@+id/radioGroup_notification_day"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/notification_when_label"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_when_label" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup_notification_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:checkedButton="@id/notification_radioButton_day_before"
+                    app:layout_constraintStart_toStartOf="@+id/notification_when_label"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_day_divider">
+
+                    <RadioButton
+                        android:id="@+id/notification_radioButton_day_before"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_before" />
+
+                    <RadioButton
+                        android:id="@+id/notification_radioButton_day_of"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/notification_time_label"
+                    style="@style/alarm_notification_label_base"
+                    android:text="@string/time_label"
+                    app:layout_constraintStart_toStartOf="@+id/notification_time_divider"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_label" />
+
+                <View
+                    android:id="@+id/notification_time_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="@+id/notification_time_value"
+                    app:layout_constraintStart_toStartOf="@+id/notification_time_value"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_time_label" />
+
+                <TextView
+                    android:id="@+id/notification_time_value"
+                    style="@style/alarm_notification_time"
+                    app:layout_constraintBottom_toBottomOf="@+id/radioGroup_notification_day"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_day_divider"
+                    tools:text="12:00 PM" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/alarm_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:enabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup_notification_day" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup_alarm_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:checkedButton="@id/alarm_radioButton_day_of"
+                    app:layout_constraintStart_toStartOf="@+id/alarm_when_label"
+                    app:layout_constraintTop_toBottomOf="@+id/alarm_day_divider">
+
+                    <RadioButton
+                        android:id="@+id/alarm_radioButton_day_before"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_before" />
+
+                    <RadioButton
+                        android:id="@+id/alarm_radioButton_day_of"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/alarm_time_label"
+                    style="@style/alarm_notification_label_base"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time_label"
+                    app:layout_constraintStart_toStartOf="@+id/alarm_time_divider"
+                    app:layout_constraintTop_toBottomOf="@+id/alarm_label" />
+
+                <TextView
+                    android:id="@+id/alarm_time_value"
+                    style="@style/alarm_notification_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/radioGroup_alarm_day"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/alarm_day_divider"
+                    tools:text="12:00 PM" />
+
+                <View
+                    android:id="@+id/alarm_time_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="@+id/alarm_time_value"
+                    app:layout_constraintStart_toStartOf="@+id/alarm_time_value"
+                    app:layout_constraintTop_toBottomOf="@+id/alarm_time_label" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_schedule_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:useCompatPadding="true" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

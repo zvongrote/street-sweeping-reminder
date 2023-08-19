@@ -1,0 +1,118 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+
+android {
+    compileSdkVersion 32
+    defaultConfig {
+        applicationId "com.zachvg.streetsweepingreminder"
+        minSdkVersion 21
+        targetSdkVersion 32
+        versionCode 9
+        versionName "2.05"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    // Had to add the compile options and kotlin option to solve some kind of error that I didn't really understand.
+    // Here are the solutions that made everything compile:
+    // https://stackoverflow.com/questions/48988778/cannot-inline-bytecode-built-with-jvm-target-1-8-into-bytecode-that-is-being-bui
+    // https://stackoverflow.com/questions/49512629/default-interface-methods-are-only-supported-starting-with-android-n/56642100#56642100
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+    }
+}
+
+dependencies {
+    def nav_version = '2.5.2'
+    def room_version = "2.4.3"
+    def lifecycle_version = "2.2.0"
+    def coroutines_version = "1.4.1"
+    def ads_version = "21.2.0"
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.browser:browser:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "com.google.android.gms:play-services-ads:$ads_version"
+    implementation "com.google.android.material:material:1.6.1"
+
+    // Testing
+    // For testing with threeten, use the JVM backport instead of the android specific one:
+    // https://github.com/JakeWharton/ThreeTenABP/issues/14
+    testImplementation 'org.threeten:threetenbp:1.4.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    // Kotlin coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    // Added views/widgets
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    // Lifecycle (ViewModel, LiveData)
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    // Backwards compatible java.time
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // Fragment
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
+
+    // Preferences
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+
+    // Open source licenses
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+}

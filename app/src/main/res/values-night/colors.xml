@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#394d56</color>
+    <color name="colorPrimaryDark">#11252d</color>
+    <color name="colorAccent">#355ded</color>
+    <color name="backgroundMain">#222424</color>
+    <color name="recyclerViewIconColor">@android:color/white</color>
+</resources>
